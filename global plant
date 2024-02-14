@@ -1,0 +1,175 @@
+import numpy as np  # linear algebra
+import pandas as pd  # read and wrangle dataframes
+import matplotlib.pyplot as plt # visualization
+import seaborn as sns # statistical visualizations and aesthetics
+
+
+df = pd.read_csv('https://raw.githubusercontent.com/wri/global-power-plant-database/master/source_databases_csv/database_IND.csv')
+
+df.head()
+
+
+df.head(25)
+
+df.shape
+
+
+df.['total charges']=unique()
+
+# checking the unique values of totalcharge
+df.['total charges'],unique()
+
+# checking for null value
+
+
+
+sns.heatmap(df.isnull().sum().to_frame())
+
+
+
+ Basic information about dataset
+
+df.info()
+
+df.iloc[500,:]
+
+categorical_col = []
+for i in df.dtypes.index:
+    if df.dtypes[i]=="object":
+        categorical_col.append(i)
+        print("categorical coloum :",categorical_col)
+        print("\n")
+        
+        numerical_col = []
+for i in df.dtypes.index:
+    if df.dtypes[i]!="object":
+        numerical_col.append(i)
+        print("numerical coloum :",numerical_col)
+        print("\n")
+
+ # checking number of unique value in each coloumns
+df.nunique().to_fream ("N.of unique value")
+
+# Dropping Customer ID column
+df.dorp=("customer ID",axis = 1 == inplace = true)
+
+
+
+
+global_power_plant_df.describe()
+
+global_power_plant_df[global_power_plant_df.generation_gwh_2013 == -947.6000000]
+
+# Hydro power plant generates electricity from turbine-driven generators that transform the potential energy of falling or fast-flowing water into mechanical energy.The Bath County is a pumped storage power plant. Plants require electrical energy to pump uphill water, there are net negative electricity generation balances for this pumped storage hydro plants.
+
+Exploratory Analysis and Visualization
+
+
+import seaborn as sns
+import matplotlib
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+sns.set_style('darkgrid')
+matplotlib.rcParams['font.size'] = 14
+matplotlib.rcParams['figure.figsize'] = (12, 8)
+matplotlib.rcParams['figure.facecolor'] = '#00000000'
+
+
+global_power_plant_df.country_long.nunique()
+
+There are a total of 164 countries with data of various types of power plants. 
+
+### Let's look up at top 20 countries with heights amount of power plants.
+
+We can calculated the total amount of power plant by count the country name.
+
+The method value_counts() is use to count the total amount of time a country name is appear in the datafram and head(20) to get the top 20. 
+
+countries_plant = global_power_plant_df.country_long.value_counts().head(20)
+countries_plant
+
+sns.barplot(x = countries_plant.index, y = countries_plant)
+plt.xticks(rotation = 90)
+plt.title('Country Designation')
+plt.ylabel('Number of Power Plant')
+plt.xlabel('Countries');
+
+
+# Fuel use in power plant.
+
+Various types of fuel are used in the power plant, which can be classified as primary fuel, other fuel-1, other fuel-2, etc. Primary fuel is used to run the main turbine to generate electricity and other fuels are used to run auxiliary machines to support the generation process
+
+main_primary_fuel = global_power_plant_df.primary_fuel.value_counts() * 100 / global_power_plant_df.primary_fuel.count()
+main_primary_fuel
+
+sns.barplot(x = main_primary_fuel, y = main_primary_fuel.index)
+plt.title('Main primary fuel')
+plt.xlabel('Count (Percentages)');
+plt.ylabel('Different type of power plant depands on the type of fuel uses');
+
+Renewable energy-based power plants have higher percentages that are beneficial to our future generation. Global warming is the next major threat that we all have to face. It is a good sign that the use of hydro, solar and wind power plants is increasing.
+
+### Type of power plant and their capacity
+
+sns.scatterplot(x = global_power_plant_df.capacity_mw, y = global_power_plant_df.primary_fuel, s = 150)
+plt.title('Type of power plant and capacity');
+
+The Hydro Power Plant has most of the high-capacity power plant. There is only 0.67 per cent of the nuclear power plant, but the capacity of the power plant is high. In spite of having a higher percentage, the solar power plant has a small capacity.
+
+### Capacity of generating power in the top 20 countries.
+
+Using groupby() method we can split the datafram into country name and their capacity of generating power.
+
+countries_capacity = global_power_plant_df.groupby('country_long')[['capacity_mw']].sum().sort_values('capacity_mw', ascending = False).head(20)
+countries_capacity
+
+countries_capacity = global_power_plant_df.groupby('country_long')[['capacity_mw']].sum().sort_values('capacity_mw', ascending = False).head(20)
+countries_capacity
+
+China and the United States are the two largest economies in the world, as well as two large countries with a huge population. It was therefore obvious that two economic giant countries were at the top of the list. 
+
+### Generation of power in USA, India and Australia during 2013, 2014, 2015, 2015, 2017.
+
+In the generation gwh column, many year has missing data (e.g. generation gwh 2013 has 22914 nun value from 29910 column). So, in order to compare the generation amoung different year, it is appropriate to select some countries which data are present in the five-year period. The United States of America, India and Australia are selected for this of scenario.
+
+global_power_plant_df.generation_gwh_2013.isna().sum()
+
+est_gen_2013 = global_power_plant_df.groupby('country_long')[['generation_gwh_2013']].sum().sort_values('generation_gwh_2013', ascending = False).head(10)
+est_gen_2013_UIA = est_gen_2013[est_gen_2013.index.isin(['United States of America', 'India', 'Australia'])]
+
+est_gen_2014 = global_power_plant_df.groupby('country_long')[['generation_gwh_2014']].sum().sort_values('generation_gwh_2014', ascending = False).head(10)
+est_gen_2014_UIA = est_gen_2014[est_gen_2014.index.isin(['United States of America', 'India', 'Australia'])]
+
+est_gen_2015 = global_power_plant_df.groupby('country_long')[['generation_gwh_2015']].sum().sort_values('generation_gwh_2015', ascending = False).head(20)
+est_gen_2015_UIA = est_gen_2015[est_gen_2015.index.isin(['United States of America', 'India', 'Australia'])]
+
+est_gen_2017 = global_power_plant_df.groupby('country_long')[['generation_gwh_2017']].sum().sort_values('generation_gwh_2017', ascending = False).head(10)
+est_gen_2017_UIA = est_gen_2017[est_gen_2017.index.isin(['United States of America', 'India', 'Australia'])]
+
+plt.bar(est_gen_2013_UIA.index, est_gen_2013_UIA.generation_gwh_2013)
+plt.bar(est_gen_2014_UIA.index, est_gen_2014_UIA.generation_gwh_2014, bottom = est_gen_2013_UIA.generation_gwh_2013);
+plt.bar(est_gen_2015_UIA.index, est_gen_2015_UIA.generation_gwh_2015, bottom = est_gen_2013_UIA.generation_gwh_2013 + est_gen_2014_UIA.generation_gwh_2014)
+plt.bar(est_gen_2016_UIA.index, est_gen_2016_UIA.generation_gwh_2016, bottom = est_gen_2013_UIA.generation_gwh_2013 + est_gen_2014_UIA.generation_gwh_2014 + est_gen_2015_UIA.generation_gwh_2015)
+plt.bar(est_gen_2017_UIA.index, est_gen_2017_UIA.generation_gwh_2017, bottom = est_gen_2013_UIA.generation_gwh_2013 + est_gen_2014_UIA.generation_gwh_2014 + est_gen_2015_UIA.generation_gwh_2015 + est_gen_2016_UIA.generation_gwh_2016)
+plt.legend(['Generation (GWH) in 2013', 'Generation (GWH) in 2014', 'Generation (GWH) in 2015', 'Generation (GWH) in 2016', 'Generation (GWH) in 2017'])
+plt.title('Generation in USA, India and Australia during 2013, 2014, 2015, 2015, 2017')
+plt.xlabel('Countries')
+plt.ylabel('Gigawatt hours (1e7 = 10000000)');
+
+To make comparison more easier, stacked bar plot is used for each of the years.
+
+It is clearly seen that for every year the generating power is increase in every country.
+
+### Different type of primary fuel based power plant and their year of  going to the first operation.
+
+sns.scatterplot(x = global_power_plant_df.commissioning_year, y = global_power_plant_df.primary_fuel, s = 150);
+plt.title('Primary fuel and commission year');
+
+sns.scatterplot(x = global_power_plant_df.commissioning_year, y = global_power_plant_df.primary_fuel, s = 150);
+plt.title('Primary fuel and commission year');
+
+It is clear that from the beginning, the hydro power plant is the most popular among the other plants, and every country continues to build this type of plant. In the 21st century, renewable energy-based power plants (e.g. solar, wind) became more popular on the other hand popularity of nuclear power plants declined. Because the world saw the devastating effects of the nuclear power plant during the Chernobyl and Fukushima Daiichi nuclear disasters.
+
+
+
